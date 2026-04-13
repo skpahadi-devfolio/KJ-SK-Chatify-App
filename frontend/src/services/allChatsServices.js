@@ -3,7 +3,7 @@
 export const getallUser = async() => {
     try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:3000/api/alluser", {method: "GET", headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`}})
+        const response = await fetch("https://kj-sk-chatify-app.onrender.com/api/alluser", {method: "GET", headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`}})
         const result = await response.json();
         if(!response.ok){
             return {success: false, message: result.message};

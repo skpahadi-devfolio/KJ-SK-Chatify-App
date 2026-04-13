@@ -21,7 +21,7 @@ const Chatbox = () => {
   
   //useffect for socketRef.current sender part:-
   useEffect(() => {
-   socketRef.current = io("http://localhost:3000");
+   socketRef.current = io("https://kj-sk-chatify-app.onrender.com");
     socketRef.current.on("connect", () => {
       console.log("Socket Connected:", socketRef.current.id);
       // toast.success("User Connected", socketRef.current.id);

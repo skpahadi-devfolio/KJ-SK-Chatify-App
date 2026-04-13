@@ -2,7 +2,7 @@
 
 export const contactMessage = async(contactdata)=>{
     try {
-      const response = await fetch("http://localhost:3000/api/contact", {method: "POST", headers:{"Content-Type": "application/json"},
+      const response = await fetch("https://kj-sk-chatify-app.onrender.com/api/contact", {method: "POST", headers:{"Content-Type": "application/json"},
       body: JSON.stringify(contactdata)})
       const result = await response.json();
 

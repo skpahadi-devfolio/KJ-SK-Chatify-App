@@ -6,7 +6,7 @@ export const chatboxMessage = async(chatMessage) => {
     try {
         const token = localStorage.getItem("token");
         console.log("TOKEN:", token);
-        const response = await fetch('http://localhost:3000/api/chatbox', {method: "POST", headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`},
+        const response = await fetch('https://kj-sk-chatify-app.onrender.com/api/chatbox', {method: "POST", headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`},
             body: JSON.stringify(chatMessage)
         })
         const result = await response.json();
@@ -30,7 +30,7 @@ export const getsingleUser = async(user_id) => {
     try {
         const token = localStorage.getItem("token");
 
-        const response = await fetch(`http://localhost:3000/api/users/${user_id}`, {method: "GET", headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`}})
+        const response = await fetch(`https://kj-sk-chatify-app.onrender.com/api/users/${user_id}`, {method: "GET", headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`}})
         const result = await response.json();
         if(!response.ok){
             return {success: false, message: result.message};
@@ -50,7 +50,7 @@ export const getsingleUser = async(user_id) => {
 export const getMessages = async(user_id) => {
     try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`http://localhost:3000/api/chatbox/${user_id}`, {method: "GET", headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`}})
+        const response = await fetch(`https://kj-sk-chatify-app.onrender.com/api/chatbox/${user_id}`, {method: "GET", headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`}})
         const result = await response.json();
         if(!response.ok){
             return {success: false, message: result.message};
