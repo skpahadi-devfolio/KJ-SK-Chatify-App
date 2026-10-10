@@ -26,7 +26,6 @@ const Login = () => {
     }
     localStorage.setItem("token", result.token);
     localStorage.setItem("user", JSON.stringify(result.user));
-    // console.log("LOGIN RESULT:", result);
     navigator('/allchats');
     } catch (error) {
       toast.error(error.message);

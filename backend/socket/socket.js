@@ -10,12 +10,11 @@ export const initSocket = (server) => {
     });
 
     io.on("connection", (socket) => {
-        // console.log("User connected:", socket.id);
-
+       
         //join room for security
         socket.on("join_room", (roomId) => {
             socket.join(roomId);
-            // console.log("User join room:", roomId);
+            
         });
 
         //send message to room
@@ -28,7 +27,7 @@ export const initSocket = (server) => {
         })
 
         socket.on("disconnect", ()=>{
-            // console.log("User Disconnected");
+            
         });
     });
 };
