@@ -11,7 +11,18 @@ const Chatbox = () => {
   const [message, setmessage] = useState("")
   const [messages, setmessages] = useState([])
   const socketRef = useRef(null);               //this is for instant message
-  const [currentUserId, setCurrentUserId] = useState(null)
+  const [currentUserId, setCurrentUserId] = useState(() => {
+    try {
+      const userData = localStorage.getItem("user");
+      if (userData && userData !== "undefined") {
+        const parsed = JSON.parse(userData);
+        return parsed?._id || parsed?.id || null;
+      }
+    } catch (err) {
+      return null;
+    }
+    return null;
+  });
   
   // this is for dynamic routing chatbox open
   const { user_id } = useParams();
@@ -21,7 +32,8 @@ const Chatbox = () => {
   
   //useffect for socketRef.current sender part:-
   useEffect(() => {
-   socketRef.current = io("https://kj-sk-chatify-app.onrender.com");
+    const SOCKET_URL = window.location.hostname === "localhost"?"http://localhost:3000":"https://kj-sk-chatify-app.onrender.com"
+   socketRef.current = io(SOCKET_URL);
     socketRef.current.on("connect", () => {
       console.log("Socket Connected:", socketRef.current.id);
       // toast.success("User Connected", socketRef.current.id);
@@ -54,20 +66,6 @@ const Chatbox = () => {
     // console.log("Joined Room:", roomId);
   }, [currentUserId, user_id]);
   
-
-  useEffect(() => {
-  try {
-    const userData = localStorage.getItem("user");
-
-    if (userData && userData !== "undefined") {
-      const parsed = JSON.parse(userData);
-      setCurrentUserId(parsed?._id);
-    }
-  } catch (err) {
-    console.log("Invalid user data");
-  }
-}, []);
-
 
 
   useEffect(() => {
@@ -105,7 +103,8 @@ const Chatbox = () => {
   }
 
   const handleClick = async () => {
-    if (message.trim() === "") {
+    if (!message.trim() === "") {
+      console.log("Current Message:", message);
       toast.error("Enter a Message Please");
       return;
     }
@@ -123,7 +122,6 @@ const Chatbox = () => {
         return;
       }
       setmessages(prev => [...prev, res.chatMessage]);
-      toast.success("Your Message sent successfully!");
 
       //socketRef.current emit add:-
       if (socketRef.current) {
@@ -174,13 +172,23 @@ const Chatbox = () => {
 
 
         {/* display the message on screen */}
-        <div className='flex flex-col gap-2 p-4 md:mx-14 pb-24 mb-20'>
+        <div className='flex flex-col gap-3 p-4 md:mx-14 pb-24 mb-20'>
           {messages?.map((msg, index) => {
-            const isSender =
-    String(msg.sender?._id || msg.sender) === String(currentUserId);
-            return <div key={index} className={`messages p-4 px-3 w-[50vw] md:max-w-[15vw] rounded-md ${isSender ? "ml-auto bg-green-500 text-black" : "mr-auto bg-blue-950 text-white"}`}>
-              {msg.message}
-            </div>
+            const isSender = String(msg.sender?._id || msg.sender) === String(currentUserId);
+            return (
+              <div 
+                key={index} 
+                className={`flex w-full ${isSender ? "justify-end" : "justify-start"}`}
+              >
+                <div className={`p-3 px-4 max-w-[75%] md:max-w-[45%] rounded-2xl break-words shadow-md ${
+                  isSender 
+                    ? "bg-green-600 text-white rounded-br-none" 
+                    : "bg-slate-800 text-white rounded-bl-none"
+                }`}>
+                  <p className="text-sm md:text-base">{msg.message}</p>
+                </div>
+              </div>
+            );
           })}
         </div>
       </div>

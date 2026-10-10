@@ -37,17 +37,10 @@ export const signupUser = async(req, res) => {
     
     const user = await User.create({name, email, password: hashpassword});
 
-    //jwt Token generate:-
-    const token = jwt.sign(
-        {id: user._id},
-        process.env.JWT_SECRET,
-        {expiresIn: "1h"}
-    )
     return res.status(201).json({
         success: true, 
         message: "You SignUp SuccessFully!",
-        user,
-        token
+        user: user
     })
     } catch (error) {
         console.log(error)
@@ -98,7 +91,7 @@ export const loginUser = async(req, res) => {
         const token = jwt.sign(
             {id: user._id},
             process.env.JWT_SECRET,
-            {expiresIn: "1h"}
+            {expiresIn: "1d"}
         )
         return res.status(200).json({
             success: true,

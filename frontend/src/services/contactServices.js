@@ -1,8 +1,10 @@
 //Api Call for Contact form:-
 
+const BASE_URL = window.location.hostname === "localohost"?"http://localhost:3000/api":"https://kj-sk-chatify-app.onrender.com/api"
+
 export const contactMessage = async(contactdata)=>{
     try {
-      const response = await fetch("https://kj-sk-chatify-app.onrender.com/api/contact", {method: "POST", headers:{"Content-Type": "application/json"},
+      const response = await fetch(`${BASE_URL}/contact`, {method: "POST", headers:{"Content-Type": "application/json"},
       body: JSON.stringify(contactdata)})
       const result = await response.json();
 

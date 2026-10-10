@@ -1,12 +1,13 @@
 //API Calling for chatbox :-
 
+const BASE_URL = window.location.hostname === "localhost"?"http://localhost:3000/api":"http://kj-sk-chatify-app.onrender.com/api"
 
 //This is POST API for chatting:-
 export const chatboxMessage = async(chatMessage) => {
     try {
         const token = localStorage.getItem("token");
         console.log("TOKEN:", token);
-        const response = await fetch('https://kj-sk-chatify-app.onrender.com/api/chatbox', {method: "POST", headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`},
+        const response = await fetch(`${BASE_URL}/chatbox`, {method: "POST", headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`},
             body: JSON.stringify(chatMessage)
         })
         const result = await response.json();
@@ -30,7 +31,7 @@ export const getsingleUser = async(user_id) => {
     try {
         const token = localStorage.getItem("token");
 
-        const response = await fetch(`https://kj-sk-chatify-app.onrender.com/api/users/${user_id}`, {method: "GET", headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`}})
+        const response = await fetch(`${BASE_URL}/users/${user_id}`, {method: "GET", headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`}})
         const result = await response.json();
         if(!response.ok){
             return {success: false, message: result.message};
@@ -47,10 +48,11 @@ export const getsingleUser = async(user_id) => {
 
 
 //This is GET API for Get Message of users:-
+
 export const getMessages = async(user_id) => {
     try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`https://kj-sk-chatify-app.onrender.com/api/chatbox/${user_id}`, {method: "GET", headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`}})
+        const response = await fetch(`${BASE_URL}/chatbox/${user_id}`, {method: "GET", headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`}})
         const result = await response.json();
         if(!response.ok){
             return {success: false, message: result.message};

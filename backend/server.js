@@ -19,7 +19,8 @@ const port = process.env.PORT ||  3000
 app.use(express.json());
 
 //cors:-
-app.use(cors({origin: 'https://kj-sk-chatify-app.netlify.app', methods: ['GET', 'POST', 'PUT', 'DELETE'], allowedHeaders: ['Content-Type','Authorization']}));
+const allowOrigin = ['http://localhost:5173', 'https://kj-sk-chatify-app.netlify.app']
+app.use(cors({origin: allowOrigin, methods: ['GET', 'POST', 'PUT', 'DELETE'], allowedHeaders: ['Content-Type','Authorization'], credentials: true}));
 
 //Database connection
 connectDb();

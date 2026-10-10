@@ -1,11 +1,13 @@
 import express from "express";
-import { getAllUsers, getUserById } from "../controllers/userscontroller.js";
+import { getAllUsers, getUserById, getMyChatUsers } from "../controllers/userscontroller.js";
+import { authmiddleware } from "../middleware/authmiddleware.js";
 const router = express.Router();
 
 
 //Get Router route:-
-router.get("/alluser", getAllUsers);
-router.get("/users/:id", getUserById);
+router.get("/my-chats", authmiddleware, getMyChatUsers);  //main Box
+router.get("/alluser", authmiddleware, getAllUsers);   //new chat search
+router.get("/users/:id", authmiddleware, getUserById);
 
 
 export default router;
